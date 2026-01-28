@@ -29,5 +29,13 @@ class Pattern:
     def add_rest(self, duration: float = 1.0):
         self.elements.append(Rest(duration))
 
+    def humanize(self, velocity_jitter: float = 0.1):
+        import random
+        for el in self.elements:
+            if isinstance(el, Note):
+                jitter = (random.random() * 2 - 1) * velocity_jitter
+                el.velocity = max(0.1, min(1.0, el.velocity + jitter))
+        return self
+
     def __repr__(self):
         return f"Pattern(len={len(self.elements)})"
