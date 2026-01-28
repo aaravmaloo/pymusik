@@ -51,3 +51,32 @@ class Bass808(Instrument):
         sig = sig * 0.9
         
         return sig * note_event.note.velocity
+
+class DarkPad(Instrument):
+    def __init__(self, sample_rate: int = 44100):
+        super().__init__(sample_rate)
+        
+    def process_note(self, note_event: NoteEvent, time_context: TimeContext) -> np.ndarray:
+        samples = time_context.beats_to_samples(note_event.note.duration)
+        if samples <= 0: return np.array([])
+        
+        t = np.arange(samples) / self.sample_rate
+        f = note_event.note.pitch.frequency
+        
+        sig = 0.5 * np.sin(2 * np.pi * f * t)
+        sig += 0.3 * np.sin(2 * np.pi * (f * 1.005) * t)
+        sig += 0.2 * np.sin(2 * np.pi * (f * 0.995) * t)
+        
+        lfo = 0.5 + 0.5 * np.sin(2 * np.pi * 0.5 * t)
+        sig *= lfo
+        
+        env = np.ones(samples)
+        attack = int(0.5 * self.sample_rate)
+        if attack < samples:
+            env[:attack] = np.linspace(0, 1, attack)
+        
+        release = int(0.5 * self.sample_rate)
+        if release < samples:
+            env[-release:] = np.linspace(1, 0, release)
+            
+        return sig * env * note_event.note.velocity * 0.5
