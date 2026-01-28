@@ -3,7 +3,7 @@ requires = ["setuptools>=61.0"]
 build-backend = "setuptools.build_meta"
 
 [project]
-name = "pymusic"
+name = "pymusik"
 version = "0.1.0"
 description = "a python music engine, that can make music using code"
 readme = "README.md"
