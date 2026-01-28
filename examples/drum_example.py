@@ -1,7 +1,7 @@
-from pymusic.core.pitch import Note
-from pymusic.composition.pattern import Pattern
-from pymusic.instruments.drums import DrumInstrument
-from pymusic.engine.audio_graph import Song
+from pymusik.core.pitch import Note
+from pymusik.composition.pattern import Pattern
+from pymusik.instruments.drums import DrumInstrument
+from pymusik.engine.audio_graph import Song
 
 def create_drums():
     

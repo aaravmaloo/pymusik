@@ -1,9 +1,9 @@
-from pymusic.core.pitch import Note, Scale, Pitch
-from pymusic.composition.pattern import Pattern
-from pymusic.composition.chord import Chord
-from pymusic.instruments.pro import ProDrums, AnalogLead, AtmosphericStrings, AcidBass
-from pymusic.instruments.lofi import VinylEffect, MellowPiano
-from pymusic.engine.audio_graph import Song
+from pymusik.core.pitch import Note, Scale, Pitch
+from pymusik.composition.pattern import Pattern
+from pymusik.composition.chord import Chord
+from pymusik.instruments.pro import ProDrums, AnalogLead, AtmosphericStrings, AcidBass
+from pymusik.instruments.lofi import VinylEffect, MellowPiano
+from pymusik.engine.audio_graph import Song
 
 def create_real_production():
     print("💎 Composing 'Ethereal Systems' - A High-Fidelity Master Production...")

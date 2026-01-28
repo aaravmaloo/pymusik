@@ -1,4 +1,4 @@
-# pymusic
+# pymusik
 
 A production-grade Python library for modular music synthesis, algorithmic composition, and offline rendering. 
 
@@ -52,15 +52,15 @@ built for programmers, researchers, and audio engineers who want to create music
 
 ### 1. Installation
 ```bash
-pip install pymusic
+pip install pymusik
 ```
 
 ### 2. Basic Usage
 ```python
-from pymusic.core.pitch import Note
-from pymusic.composition.pattern import Pattern
-from pymusic.instruments.piano import PianoInstrument
-from pymusic.engine.audio_graph import Song
+from pymusik.core.pitch import Note
+from pymusik.composition.pattern import Pattern
+from pymusik.instruments.piano import PianoInstrument
+from pymusik.engine.audio_graph import Song
 
 # Initialize song
 song = Song(bpm=120)
@@ -76,7 +76,7 @@ song.render("output.wav")
 
 ### 3. Advanced Phonk Demo (808s & Cowbells)
 ```python
-from pymusic.instruments.phonk import PhonkCowbell, Bass808
+from pymusik.instruments.phonk import PhonkCowbell, Bass808
 # ... setup song ...
 bell = song.create_track("Cowbell", PhonkCowbell())
 bass = song.create_track("808", Bass808())
@@ -99,7 +99,7 @@ song.render("pro_mix.wav")
 
 ## Project Structure
 ```text
-pymusic/
+pymusik/
 ├── core/          # Pitch, Time, Events
 ├── composition/   # Pattern, Chord, Progression
 ├── synthesis/     # Oscillators, Envelopes, Filters

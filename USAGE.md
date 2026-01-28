@@ -1,6 +1,6 @@
-# pymusic Usage Guide 🎵
+# pymusik Usage Guide 🎵
 
-Welcome to `pymusic`, a code-first engine for high-fidelity music production. This guide explains how to move beyond basic synthesis to create "real" sounding music.
+Welcome to `pymusik`, a code-first engine for high-fidelity music production. This guide explains how to move beyond basic synthesis to create "real" sounding music.
 
 ## How it Fits Together
 
@@ -56,7 +56,7 @@ Use the internal **Master Limiter**. The renderer automatically saturates and li
 
 ## Example: The Perfect Mix
 ```python
-from pymusic import Song, ProDrums, AcidBass, MellowPiano
+from pymusik import Song, ProDrums, AcidBass, MellowPiano
 
 song = Song(bpm=124)
 
