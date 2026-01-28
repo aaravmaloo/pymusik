@@ -110,3 +110,51 @@ class HyperPluck(Instrument):
         sig = 0.7 * np.sin(2 * np.pi * f * t) + 0.3 * np.sin(2 * np.pi * f * 4 * t)
         sig = self.env.apply(sig, self.sample_rate)
         return sig * note_event.note.velocity
+
+class AnalogLead(Instrument):
+    def __init__(self, sample_rate: int = 44100):
+        super().__init__(sample_rate)
+        self.osc = SawtoothOscillator(sample_rate)
+        self.env = ADSREnvelope(attack=0.02, decay=0.1, sustain=0.6, release=0.2)
+        
+    def process_note(self, note_event: NoteEvent, time_context: TimeContext) -> np.ndarray:
+        samples = time_context.beats_to_samples(note_event.note.duration)
+        if samples <= 0: return np.array([])
+        
+        t = np.arange(samples) / self.sample_rate
+        f = note_event.note.pitch.frequency
+        
+        # Simulate VCO Drift (Analog Randomness)
+        drift = 1.0 + 0.002 * np.random.normal(0, 1, samples)
+        phase = 2 * np.pi * f * np.cumsum(drift) / self.sample_rate
+        sig = np.sin(phase) + 0.5 * (2 * (phase / (2 * np.pi) % 1) - 1) # Sine + Saw blend
+        
+        sig = self.env.apply(sig, self.sample_rate)
+        return sig * note_event.note.velocity * 0.6
+
+class AtmosphericStrings(Instrument):
+    def __init__(self, sample_rate: int = 44100):
+        super().__init__(sample_rate)
+        self.env = ADSREnvelope(attack=0.8, decay=0.5, sustain=0.8, release=1.0)
+        
+    def process_note(self, note_event: NoteEvent, time_context: TimeContext) -> np.ndarray:
+        samples = time_context.beats_to_samples(note_event.note.duration)
+        if samples <= 0: return np.array([])
+        
+        t = np.arange(samples) / self.sample_rate
+        f = note_event.note.pitch.frequency
+        
+        # Ensemble effect via multiple detuned sines + noise floor
+        sig = np.zeros(samples)
+        for d in [1.0, 1.002, 0.998, 1.01]:
+            sig += np.sin(2 * np.pi * f * d * t)
+            
+        noise = np.random.uniform(-1, 1, samples) * 0.05
+        sig = (sig / 4) + noise
+        
+        sig = self.env.apply(sig, self.sample_rate)
+        # Gentle low-pass for "string" warmth
+        lpf = LowPassFilter(cutoff=1200)
+        sig = lpf.process(sig, self.sample_rate)
+        
+        return sig * note_event.note.velocity * 0.4
